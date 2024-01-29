@@ -12,9 +12,9 @@ let candidateAnswer = "";
 
 
 //TODO: Variables for Part 2
-let questions;
-let correctAnswers;
-let candidateAnswers;
+let questions = ["Who was the first American woman in space? ","True or false: 5 kilometer == 5000 meters? ", "(5 + 3)/2 * 10 = ? ", "Given the array [8, 'Orbit', 'Trajectory', 45], what entry is at index 2? ", "What is the minimum crew size for the ISS? "];
+let correctAnswers = ["Sally Ride", "true", "40", "Trajectory", "3"];
+let candidateAnswers = [];
 
 
 function askForName() {
@@ -25,7 +25,9 @@ function askForName() {
 function askQuestion() {
   // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
     candidateAnswer = input.question(question);
-
+  for (let i = 0; i < questions.length; i++){
+    candidateAnswers.push(input.question(questions[i]));
+  }
 }
 
 function gradeQuiz(candidateAnswers) {
@@ -33,14 +35,25 @@ function gradeQuiz(candidateAnswers) {
   // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
   if (candidateAnswer === correctAnswer) {
     console.log("Correct!");
-} else {
-    console.log("Incorrect!");
-}
+  } else {
+    console.log("Incorrect! The correct answer is " + correctAnswer + ".");
+  }
+  for (let i = 0; i < questions.length; i++){
+    if (candidateAnswers[i] === correctAnswers[i]){
+      console.log(`${candidateAnswers[i]} is correct!`);
+    } else {
+      console.log(`Incorrect! The correct answer is, ${correctAnswers[i]}.`)
+    }
+  }
 
-
-  let grade;  //TODO 3.2 use this variable to calculate the candidates score.
-
-
+  let grade = 0;  //TODO 3.2 use this variable to calculate the candidates score.
+  let scoreCount = 0;
+  for (let i = 0; i < questions.length; i++){
+    if (candidateAnswers[i].toUpperCase() === correctAnswers[i].toUpperCase()){
+      scoreCount = scoreCount + 1
+    }
+  }
+  grade = (scoreCount/questions.length)*100; 
   return grade;
 }
 
@@ -49,7 +62,13 @@ function runProgram() {
   // TODO 1.1c: Greet candidate using their name //
    console.log("Hello, " + candidateName + "!");
   askQuestion();
-  gradeQuiz(this.candidateAnswers);
+  let result = gradeQuiz(this.candidateAnswers);
+  if (result >= 80) {
+    console.log(`You have passed the quiz with a score of ${result}%!`);
+  } else { 
+    console.log(`You have failed the quiz with a score of ${result}%.`);
+  }
+  
 }
 
 // ----------- Don't write any code or change any code below this line ---------- //
